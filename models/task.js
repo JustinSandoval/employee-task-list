@@ -2,10 +2,11 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const TaskSchema = new Schema({
-    todo: {
-        type: String,
-        required: true
-    }
+    title: String,
+    description: String,
+    completed: Boolean,
+    dateCreated: Date,
+    dateComplete: Date
 })
 
 module.exports = new mongoose.model('Task', TaskSchema)

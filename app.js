@@ -19,7 +19,19 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
-    res.render('index')
+    res.render('tasks/index')
+})
+
+app.get('/task/add', (req, res) => {
+    res.render('tasks/add')
+})
+
+app.post('/task/add', (req, res) => {
+    const { title, description, deadline } = req.body
+    console.log(title)
+    console.log(description)
+    console.log(deadline)
+    res.redirect('/')
 })
 
 app.listen(3000, () => {
