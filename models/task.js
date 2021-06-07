@@ -5,7 +5,10 @@ const TaskSchema = new Schema(
     {
         title: String,
         description: String,
-        completed: Boolean,
+        completed: {
+            type: Boolean,
+            default: false
+        },
         deadline: Date
     },
     {

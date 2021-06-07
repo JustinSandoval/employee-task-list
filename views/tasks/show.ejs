@@ -4,8 +4,15 @@
         <div class="card" style="width: 20rem;">
             <div class="card-body">
               <p class="h5 card-title d-flex justify-content-between">
-                  <%= task.title %>
-                  <small><span class="badge bg-danger rounded-pill"><%= Date.now() > new Date(task.deadline) ? 'OVERDUE': null %></span></small>
+                    <%= task.title %>
+                    <% if (Date.now() > new Date(task.deadline)) { %>
+                        <small><span class="badge bg-danger rounded-pill mx-3">Overdue</span></small>
+                    <% } else if(task.completed) { %> 
+                        <small><span class="badge bg-info rounded-pill mx-3">Completed</span></small>
+                    <% } else { %>
+                        <small><span class="badge bg-success rounded-pill mx-3">In Progress</span></small>
+                    <% } %>                    
+
                 </p>
               <p class="card-text"><%= task.description %> </p>
             </div>
