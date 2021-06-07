@@ -3,9 +3,9 @@
     <h1>Employee Task List</h1>
     
     <a href="/task/add" style=background-color:#eb8934 class="btn btn-sm mb-4">Add Task</a>
-    
 </div>
-<div class="row">
+<p class="h3">In progress</p>
+<div class="row pb-3">
     <div class="col">
         <div class="list-group">
             <% const sortedTasks = tasks.sort((a,b) =>a.deadline-b.deadline) %> 
@@ -17,18 +17,30 @@
                         </div>
                     </form>
                     <span class="ms-4 me-auto"><%= t.title %></span>
-
+                    
                     <% if (t.completed === 'on') { %>
-                        <small><span class="badge bg-info rounded-pill mx-3">Completed</span></small>
+                        <small><span class="badge bg-success rounded-pill mx-3">Completed</span></small>
                     <% } else if(Date.now() > new Date(t.deadline)){ %> 
                         <small><span class="badge bg-danger rounded-pill mx-3">Overdue</span></small>
                     <% } else { %>
-                        <small><span class="badge bg-success rounded-pill mx-3">In Progress</span></small>
+                        <small><span class="badge bg-warning rounded-pill mx-3">In Progress</span></small>
                     <% } %>
 
-                    <span><%= dayjs(t.deadline).format('ddd MMM D, YYYY @ h:mm a') %></span>
+                    <span><%= dayjs(t.deadline).format('ddd MMM D, YYYY - h:mm a') %></span>
                 </a>
             <% } %> 
         </div>
     </div>
 </div>
+<p class="h3">Completed</p>
+<div class="row">
+    <div class="col">
+        <div class="list-group">
+            <% if(sortedTasks[0].completed === 'on') { %>
+                <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">
+                    <%= sortedTasks[0].title %>
+                </a>
+            <% } %> 
+            </div>
+        </div>
+    </div>
