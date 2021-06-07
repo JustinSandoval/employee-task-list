@@ -5,24 +5,18 @@
             <div class="card-body">
               <p class="h5 card-title d-flex justify-content-between">
                     <%= task.title %>
-                    <% if (Date.now() > new Date(task.deadline)) { %>
-                        <small><span class="badge bg-danger rounded-pill mx-3">Overdue</span></small>
-                    <% } else if(task.completed) { %> 
+                    <% if (task.completed === 'on') { %>
                         <small><span class="badge bg-info rounded-pill mx-3">Completed</span></small>
+                    <% } else if(Date.now() > new Date(task.deadline)){ %> 
+                        <small><span class="badge bg-danger rounded-pill mx-3">Overdue</span></small>
                     <% } else { %>
                         <small><span class="badge bg-success rounded-pill mx-3">In Progress</span></small>
-                    <% } %>                    
+                    <% } %>                   
 
                 </p>
               <p class="card-text"><%= task.description %> </p>
             </div>
             <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Completed</label>
-                  </div>
-              </li>
               <li class="list-group-item">
                   Deadline: <%= dayjs(task.deadline).format('ddd, MMM D YYYY @ h:mm a') %> 
               </li>

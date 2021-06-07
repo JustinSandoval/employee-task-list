@@ -45,6 +45,16 @@ app.get('/task/:id', async (req, res) => {
     res.render('tasks/show', { task, dayjs })
 })
 
+// patch route for checkbox
+app.patch('/task/:id', async (req, res) => {
+    const { id } = req.params
+
+    const task = await Task.findByIdAndUpdate(id, {
+        completed: req.body.completed
+    })
+    res.redirect('/')
+})
+
 app.listen(3000, () => {
     console.log('listening on port 3000')
 })

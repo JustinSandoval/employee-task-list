@@ -6,8 +6,8 @@ const TaskSchema = new Schema(
         title: String,
         description: String,
         completed: {
-            type: Boolean,
-            default: false
+            type: String,
+            default: 'off'
         },
         deadline: Date
     },
