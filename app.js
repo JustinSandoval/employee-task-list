@@ -2,6 +2,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const ejsMate = require('ejs-mate')
 const path = require('path')
+const Task = require('./models/task')
+const dayjs = require('dayjs')
 
 mongoose.connect('mongodb://localhost:27017/task-list', {
     useNewUrlParser: true,
@@ -18,20 +20,27 @@ app.set('views', path.join(__dirname, 'views'))
 
 app.use(express.urlencoded({ extended: true }))
 
-app.get('/', (req, res) => {
-    res.render('tasks/index')
+app.get('/', async (req, res) => {
+    const tasks = await Task.find({})
+    res.render('tasks/index', { tasks, dayjs })
 })
 
 app.get('/task/add', (req, res) => {
     res.render('tasks/add')
 })
 
-app.post('/task/add', (req, res) => {
-    const { title, description, deadline } = req.body
-    console.log(title)
-    console.log(description)
-    console.log(deadline)
+app.post('/task/add', async (req, res) => {
+    const { task } = req.body
+    const newTask = new Task(task)
+    console.log(newTask)
+    await newTask.save()
     res.redirect('/')
+})
+
+app.get('/task/:id', async (req, res) => {
+    const { id } = req.params
+    const task = await Task.findById(id)
+    res.render('tasks/show', { task, dayjs })
 })
 
 app.listen(3000, () => {
