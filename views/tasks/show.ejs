@@ -1,8 +1,17 @@
 <% layout('layouts/boilerplate') %>
+<% const isComplete = (t) => { %>
+    <% if(t.completed === 'on') { %>
+        <%= 'list-group-item-success' %>
+    <% } else if(Date.now() > new Date(t.deadline)) { %>
+        <%= 'list-group-item-danger' %>
+    <% } else { %>
+        <%= 'list-group-item-info' %>
+    <% } %>
+<% } %>
 <div class="row">
     <div class="col-8 offset-2 d-flex justify-content-center">
         <div class="card" style="width: 20rem;">
-            <div class="card-body list-group-item-danger">
+            <div class="card-body <%= isComplete(task) %> ">
               <p class="h5 card-title d-flex justify-content-between">
                     <%= task.title %>
                     <% if (task.completed === 'on') { %>
@@ -10,7 +19,7 @@
                     <% } else if(Date.now() > new Date(task.deadline)){ %> 
                         <small><span class="badge bg-danger rounded-pill mx-3">Overdue</span></small>
                     <% } else { %>
-                        <small><span class="badge bg-warning rounded-pill mx-3">In Progress</span></small>
+                        <small><span class="badge bg-info rounded-pill mx-3">In Progress</span></small>
                     <% } %>                   
 
                 </p>
@@ -26,17 +35,17 @@
             </small>
             <li class="list-group-item d-flex justify-content-between">
                 <a href="/" class="btn btn-secondary">Go Back</a>
-                <button type="button" class="btn btn-dark" style=background-color:#eb8934 data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" class="btn btn-dark" style=background-color:#eb8934 data-bs-toggle="modal" data-bs-target="#editModal">
                     Edit
                 </button>
             </li>
         </div>
         
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Edit Task</h5>
+                  <h5 class="modal-title" id="editModalLabel">Edit Task</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

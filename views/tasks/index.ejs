@@ -2,8 +2,10 @@
 
 <div class="text-center">
     <h1>Employee Task List</h1>
-    
-    <a href="/task/add" style=background-color:#eb8934 class="btn btn-sm">Add Task</a>
+    <!-- modal button -->
+    <button type="button" class="btn btn-dark" style=background-color:#eb8934 data-bs-toggle="modal" data-bs-target="#addModal">
+        Add Task
+    </button>
 </div>
 <p class="h3">In Progress</p>
 <hr>
@@ -45,14 +47,16 @@
         </div>
     </div>
 </div>
-<p class="h3 pt-3">Completed</p>
-<hr>
+<div>
+    <p class="h3 pt-3">Completed</p>
+    <hr>
+</div>
 <div class="row overflow-auto" style="height: 215px">
     <div class="col">
         <div class="list-group">
             <% for(let t of sortedTasks) { %> 
                 <% if(t.completed === 'on') { %>
-                    <a href="#" class="list-group-item list-group-item-action d-flex align-items-center list-group-item-success">
+                    <a href="/task/<%= t._id %> " class="list-group-item list-group-item-action d-flex align-items-center list-group-item-success">
                         <form action="/task/<%= t._id %>?_method=PATCH" method="POST">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="completed" onchange="this.form.submit()" id="completed" <%= t.completed === 'on' ? 'checked' : '' %>  > 
@@ -69,6 +73,35 @@
                 <% } %>
             <% } %> 
             </div>
+        </div>
+    </div>
+
+<!-- modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addModalLabel">Add Task</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/task/add" method="POST">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" name="task[title]" id="title" placeholder="Enter title">
+                      </div>
+                      <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" name="task[description]" id="description" rows="3"></textarea>
+                      </div>
+                      <div class="mb-3">
+                        <label for="deadline" class="form-label">Deadline</label>
+                        <input type="datetime-local" style=display:block; name="task[deadline]" id="deadline">
+                      </div>
+                      <button class="btn btn-warning" style=background-color:#eb8934>Submit</button>
+                 </form>
+            </div>
+          </div>
         </div>
     </div>
 
