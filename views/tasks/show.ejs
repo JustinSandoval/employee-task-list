@@ -2,15 +2,15 @@
 <div class="row">
     <div class="col-8 offset-2 d-flex justify-content-center">
         <div class="card" style="width: 20rem;">
-            <div class="card-body">
+            <div class="card-body list-group-item-danger">
               <p class="h5 card-title d-flex justify-content-between">
                     <%= task.title %>
                     <% if (task.completed === 'on') { %>
-                        <small><span class="badge bg-info rounded-pill mx-3">Completed</span></small>
+                        <small><span class="badge bg-success rounded-pill mx-3">Completed</span></small>
                     <% } else if(Date.now() > new Date(task.deadline)){ %> 
                         <small><span class="badge bg-danger rounded-pill mx-3">Overdue</span></small>
                     <% } else { %>
-                        <small><span class="badge bg-success rounded-pill mx-3">In Progress</span></small>
+                        <small><span class="badge bg-warning rounded-pill mx-3">In Progress</span></small>
                     <% } %>                   
 
                 </p>
@@ -21,9 +21,48 @@
                   Deadline: <%= dayjs(task.deadline).format('ddd, MMM D YYYY @ h:mm a') %> 
               </li>
             </ul>
-            <div class="card-footer text-muted">
+            <small class="card-footer text-muted">
                 Created: <%= dayjs(task.createdAt).format('ddd, MMM D YYYY @ h:mm a') %>
+            </small>
+            <li class="list-group-item d-flex justify-content-between">
+                <a href="/" class="btn btn-secondary">Go Back</a>
+                <button type="button" class="btn btn-dark" style=background-color:#eb8934 data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Edit
+                </button>
+            </li>
+        </div>
+        
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Edit Task</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/task/<%= task._id %>?_method=PUT" method="POST">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" name="task[title]" value="<%= task.title %> " id="title" placeholder="Enter title">
+                          </div>
+                          <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" name="task[description]" id="description" rows="3"><%= task.description %></textarea>
+                          </div>
+                          <div class="mb-3">
+                            <label for="deadline" class="form-label">Deadline</label>
+                            <input type="datetime-local" style=display:block; name="task[deadline]" value="<%= dayjs(task.deadline).format('YYYY-MM-DDTHH:mm:ss.SSS') %>" id="deadline">
+                          </div>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary order-1" style=background-color:#eb8934>Save changes</button>
+                        </form>
+                        <form action="/task/<%= task.id %>?_method=DELETE" method="POST">
+                            <button type="submit" class="btn btn-secondary">Delete</button>
+                        </form>
+                </div>
+              </div>
             </div>
-          </div>
+        </div>
     </div>
 </div>

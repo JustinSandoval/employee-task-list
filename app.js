@@ -15,12 +15,12 @@ mongoose.connect('mongodb://localhost:27017/task-list', {
 const app = express()
 
 app.engine('ejs', ejsMate)
-
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', async (req, res) => {
     const tasks = await Task.find({})
@@ -45,6 +45,20 @@ app.get('/task/:id', async (req, res) => {
     res.render('tasks/show', { task, dayjs })
 })
 
+app.get('/task/:id/edit', async (req, res) => {
+    const { id } = req.params
+    const task = await Task.findById(id)
+    res.render('tasks/edit', { task, dayjs })
+})
+
+app.put('/task/:id', async (req, res) => {
+    const { id } = req.params
+
+    const task = await Task.findByIdAndUpdate(id, {
+        ...req.body.task
+    })
+    res.redirect(`/task/${task._id}`)
+})
 // patch route for checkbox
 app.patch('/task/:id', async (req, res) => {
     const { id } = req.params
@@ -52,6 +66,12 @@ app.patch('/task/:id', async (req, res) => {
     const task = await Task.findByIdAndUpdate(id, {
         completed: req.body.completed
     })
+    res.redirect('/')
+})
+
+app.delete('/task/:id', async (req, res) => {
+    const { id } = req.params
+    const task = await Task.findByIdAndDelete(id)
     res.redirect('/')
 })
 
