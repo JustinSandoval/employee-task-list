@@ -46,10 +46,6 @@ app.get('/filtered', async (req, res) => {
     res.render('tasks/filtered', { tasks, dayjs, filtered })
 })
 
-app.get('/task/add', (req, res) => {
-    res.render('tasks/add')
-})
-
 app.post('/task/add', async (req, res) => {
     const { task } = req.body
     const newTask = new Task(task)
