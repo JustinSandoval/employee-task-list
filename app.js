@@ -24,12 +24,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', async (req, res) => {
     const tasks = await Task.find({})
-    // const filtered = tasks.filter(task => {
-    //     return (
-    //         dayjs(task.deadline).format('ddd MMM D, YYYY') ===
-    //         dayjs(Date.now()).format('ddd MMM D, YYYY')
-    //     )
-    // })
 
     res.render('tasks/index', { tasks, dayjs })
 })
@@ -49,8 +43,8 @@ app.get('/filtered', async (req, res) => {
 app.post('/task/add', async (req, res) => {
     const { task } = req.body
     const newTask = new Task(task)
-    console.log(newTask)
     await newTask.save()
+
     res.redirect('/')
 })
 
