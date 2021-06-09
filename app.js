@@ -24,7 +24,26 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', async (req, res) => {
     const tasks = await Task.find({})
+    // const filtered = tasks.filter(task => {
+    //     return (
+    //         dayjs(task.deadline).format('ddd MMM D, YYYY') ===
+    //         dayjs(Date.now()).format('ddd MMM D, YYYY')
+    //     )
+    // })
+
     res.render('tasks/index', { tasks, dayjs })
+})
+
+app.get('/filtered', async (req, res) => {
+    const tasks = await Task.find({})
+    const filtered = tasks.filter(task => {
+        return (
+            dayjs(task.deadline).format('ddd MMM D, YYYY') ===
+            dayjs(Date.now()).format('ddd MMM D, YYYY')
+        )
+    })
+
+    res.render('tasks/filtered', { tasks, dayjs, filtered })
 })
 
 app.get('/task/add', (req, res) => {
@@ -67,6 +86,15 @@ app.patch('/task/:id', async (req, res) => {
         completed: req.body.completed
     })
     res.redirect('/')
+})
+
+app.patch('/filtered/:id', async (req, res) => {
+    const { id } = req.params
+
+    const task = await Task.findByIdAndUpdate(id, {
+        completed: req.body.completed
+    })
+    res.redirect('/filtered')
 })
 
 app.delete('/task/:id', async (req, res) => {
