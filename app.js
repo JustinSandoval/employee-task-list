@@ -36,8 +36,17 @@ app.get('/filtered', async (req, res) => {
             dayjs(Date.now()).format('ddd MMM D, YYYY')
         )
     })
+    const sortedTasks = filtered.sort((a, b) => a.deadline - b.deadline)
 
-    res.render('tasks/filtered', { tasks, dayjs, filtered })
+    res.render('tasks/filtered', { tasks, dayjs, sortedTasks })
+})
+
+app.post('/filtered/add', async (req, res) => {
+    const { task } = req.body
+    const newTask = new Task(task)
+    await newTask.save()
+
+    res.redirect('/filtered')
 })
 
 app.post('/task/add', async (req, res) => {

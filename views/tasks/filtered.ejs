@@ -1,5 +1,5 @@
 <% layout('layouts/boilerplate') %>
-<% const sortedTasks = tasks.sort((a,b) =>a.deadline-b.deadline) %>
+
 <div class="text-center">
     <h1>Employee Task List</h1>
     <!-- modal button -->
@@ -22,7 +22,7 @@
       
 </div>
 <hr>
-<div class="row overflow-auto" style="height: 216px">
+<div class="row overflow-auto" style="height: 216px; max-width: 1000px; min-width: 400px;">
     <div class="col">
         <div class="list-group">
             <% const isComplete = (t) => { %>
@@ -34,7 +34,7 @@
                     <%= 'list-group-item-info' %>
                 <% } %>
             <% } %>  
-            <% for(let t of filtered) { %>
+            <% for(let t of sortedTasks) { %>
                 <% if(t.completed != 'on') { %>
 
                     <a href="/task/<%= t._id %> " class="list-group-item list-group-item-action d-flex align-items-center <% isComplete(t) %> ">
@@ -60,12 +60,12 @@
     </div>
 </div>
 
-<div class="row overflow-auto" style="height: 298px">
+<div>
+    <p class="h3 pt-3">Completed</p>
+</div>
+<hr>
+<div class="row overflow-auto" style="height: 215px; max-width: 1000px; min-width: 400px;">
     <div class="col">
-        <div>
-            <p class="h3 pt-3">Completed</p>
-        </div>
-        <hr>
         <div class="list-group">
             <% for(let t of sortedTasks) { %> 
                 <% if(t.completed === 'on') { %>
@@ -98,7 +98,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/task/add" method="POST">
+                <form action="/filtered/add" method="POST">
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
                         <input type="text" class="form-control" name="task[title]" id="title" placeholder="Enter title">

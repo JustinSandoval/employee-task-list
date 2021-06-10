@@ -23,7 +23,7 @@
       
 </div>
 <hr>
-<div class="row overflow-auto" style="height: 216px">
+<div class="row overflow-auto" style="height: 216px; max-width: 1000px; min-width: 400px;">
     <div class="col">
         <div class="list-group">
             <% const isComplete = (t) => { %>
@@ -61,12 +61,12 @@
     </div>
 </div>
 
-<div class="row overflow-auto" style="height: 298px">
+<div>
+    <p class="h3 pt-3">Completed</p>
+</div>
+<hr>
+<div class="row overflow-auto" style="height: 216px; max-width: 1000px; min-width: 400px;">
     <div class="col">
-        <div>
-            <p class="h3 pt-3">Completed</p>
-        </div>
-        <hr>
         <div class="list-group">
             <% for(let t of sortedTasks) { %> 
                 <% if(t.completed === 'on') { %>
@@ -122,5 +122,3 @@
           </div>
         </div>
     </div>
-
-<script src="/js/completed.js"></script>

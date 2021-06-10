@@ -1,20 +1,21 @@
 {
-  "name": "TaskListProject",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "dayjs": "^1.10.5",
-    "ejs": "^3.1.6",
-    "ejs-mate": "^3.0.0",
-    "express": "^4.17.1",
-    "method-override": "^3.0.0",
-    "mongoose": "^5.12.13"
-  }
+    "name": "TaskListProject",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node app.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "Justin Sandoval <sandojdev@gmail.com> (https://linkedin.com/in/justin-sandoval",
+    "license": "ISC",
+    "dependencies": {
+        "dayjs": "^1.10.5",
+        "ejs": "^3.1.6",
+        "ejs-mate": "^3.0.0",
+        "express": "^4.17.1",
+        "method-override": "^3.0.0",
+        "mongoose": "^5.12.13"
+    }
 }
