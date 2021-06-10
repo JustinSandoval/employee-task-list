@@ -6,7 +6,7 @@ const Task = require('./models/task')
 const dayjs = require('dayjs')
 const methodOverride = require('method-override')
 
-mongoose.connect('mongodb://localhost:27017/task-list', {
+mongoose.connect('mongodb://mongo:27017/task-list', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
