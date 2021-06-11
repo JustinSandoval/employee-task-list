@@ -1,11 +1,20 @@
 <% layout('layouts/boilerplate') %> 
 <% const sortedTasks = tasks.sort((a,b) =>a.deadline-b.deadline) %>
+<% const isComplete = (t) => { %>
+    <% if(t.completed === 'on') { %>
+        <%= 'list-group-item-success' %>
+    <% } else if(Date.now() > new Date(t.deadline)) { %>
+        <%= 'list-group-item-danger' %>
+    <% } else { %>
+        <%= 'list-group-item-info' %>
+    <% } %>
+<% } %> 
 
 <div class="text-center">
     <h1>Employee Task List</h1>
     <!-- modal button -->
     <button type="button" class="btn btn-dark" style=background-color:#eb8934 data-bs-toggle="modal" data-bs-target="#addModal">
-        Add Task
+        <i class="fas fa-tasks"></i>
     </button>
 </div>
 <div class="">
@@ -25,16 +34,7 @@
 <hr>
 <div class="row overflow-auto" style="height: 216px; max-width: 1000px; min-width: 400px;">
     <div class="col">
-        <div class="list-group">
-            <% const isComplete = (t) => { %>
-                <% if(t.completed === 'on') { %>
-                    <%= 'list-group-item-success' %>
-                <% } else if(Date.now() > new Date(t.deadline)) { %>
-                    <%= 'list-group-item-danger' %>
-                <% } else { %>
-                    <%= 'list-group-item-info' %>
-                <% } %>
-            <% } %>  
+        <div class="list-group"> 
             <% for(let t of sortedTasks) { %>
                 <% if(t.completed != 'on') { %>
 
@@ -54,6 +54,11 @@
                             <% } %>
                                 
                         <span class="ps-4 w-25"><%= dayjs(t.deadline).format('ddd MMM D, YYYY - h:mm a') %></span>
+                        <% if(t.files.length) { %>
+                            <i class="fas fa-paperclip" style="color: rgb(146, 141, 141)"></i>
+                        <% } else { %>
+                            <i class="fas fa-sticky-note" style="color: rgb(146, 141, 141)"></i>
+                        <% } %>   
                     </a>
                 <% } %>
             <% } %> 
@@ -99,7 +104,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/task/add" method="POST">
+                <form action="/task/add" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
                         <input type="text" class="form-control" name="task[title]" id="title" placeholder="Enter title">
@@ -110,7 +115,7 @@
                       </div>
                       <div class="mb-3">
                         <label for="formFileSm" class="form-label">File Upload</label>
-                        <input class="form-control form-control-sm" name="task[file]" id="formFileSm" type="file">
+                        <input class="form-control form-control-sm" name="file" id="formFileSm" type="file" multiple>
                       </div>
                       <div class="mb-3">
                         <label for="deadline" class="form-label">Deadline</label>

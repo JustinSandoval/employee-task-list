@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const ejsMate = require('ejs-mate')
@@ -5,8 +6,18 @@ const path = require('path')
 const Task = require('./models/task')
 const dayjs = require('dayjs')
 const methodOverride = require('method-override')
+const cloudinary = require('cloudinary').v2
+const multer = require('multer')
+const { storage } = require('./cloudinary')
+const upload = multer({ storage })
 
-mongoose.connect('mongodb://mongo:27017/task-list', {
+// mongoose.connect('mongodb://mongo:27017/task-list', {
+//     useNewUrlParser: true,
+//     useCreateIndex: true,
+//     useUnifiedTopology: true
+// })
+
+mongoose.connect('mongodb://localhost:27017/task-list', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
@@ -49,10 +60,12 @@ app.post('/filtered/add', async (req, res) => {
     res.redirect('/filtered')
 })
 
-app.post('/task/add', async (req, res) => {
+app.post('/task/add', upload.array('file'), async (req, res) => {
     const { task } = req.body
     const newTask = new Task(task)
+    newTask.files = req.files.map(f => ({ url: f.path, filename: f.filename }))
     await newTask.save()
+    console.log(newTask)
 
     res.redirect('/')
 })
@@ -60,7 +73,8 @@ app.post('/task/add', async (req, res) => {
 app.get('/task/:id', async (req, res) => {
     const { id } = req.params
     const task = await Task.findById(id)
-    res.render('tasks/show', { task, dayjs })
+
+    res.render('tasks/show', { task, dayjs, cloudinary })
 })
 
 app.get('/task/:id/edit', async (req, res) => {

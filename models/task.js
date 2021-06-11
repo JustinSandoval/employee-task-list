@@ -4,6 +4,12 @@ const Schema = mongoose.Schema
 const TaskSchema = new Schema(
     {
         title: String,
+        files: [
+            {
+                url: String,
+                filename: String
+            }
+        ],
         description: String,
         completed: {
             type: String,

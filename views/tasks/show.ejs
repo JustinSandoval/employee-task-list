@@ -30,6 +30,34 @@
                   Deadline: <%= dayjs(task.deadline).format('ddd, MMM D YYYY @ h:mm a') %> 
               </li>
             </ul>
+            <% if (task.files.length) { %>
+                <ul class="list-group list-group-flush">
+                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner"  style="height:100px">
+                            <% task.files.forEach((file, i) => { %>
+                                <% if(file.filename.slice(file.filename.length - 4) === 'docx') { %>
+                                    <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+                                        <iframe src=<%=`https://drive.google.com/viewerng/viewer?url=${task.files[0].url.replace(' ', '%20')}&embedded=true`%> 
+                                            style="height:400px" frameborder="0"></iframe>
+                                    </div>
+                                <% } else { %>
+                                    <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+                                        <a href="<%= file.url %>"><img src="<%= file.url %>" class="d-block w-100 img-thumbnail" alt=""></a>
+                                    </div>
+                                <% } %>
+                            <% }) %>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon carouselButton" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                            <span class="carousel-control-next-icon carouselButton" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </ul>
+            <% } %>
             <small class="card-footer text-muted">
                 Created: <%= dayjs(task.createdAt).format('ddd, MMM D YYYY @ h:mm a') %>
             </small>
@@ -75,4 +103,4 @@
         </div>
     </div>
 </div>
-  
+
