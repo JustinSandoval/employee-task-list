@@ -6,7 +6,6 @@ const path = require('path')
 const Task = require('./models/task')
 const dayjs = require('dayjs')
 const methodOverride = require('method-override')
-const cloudinary = require('cloudinary').v2
 const multer = require('multer')
 const { storage } = require('./cloudinary')
 const upload = multer({ storage })
@@ -53,7 +52,7 @@ app.get('/task/:id', async (req, res) => {
     const { id } = req.params
     const task = await Task.findById(id)
 
-    res.render('tasks/show', { task, dayjs, cloudinary })
+    res.render('tasks/show', { task, dayjs })
 })
 
 app.get('/task/:id/edit', async (req, res) => {
