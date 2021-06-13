@@ -26,7 +26,7 @@
               <p class="card-text"><%= task.description %> </p>
             </div>
             <ul class="list-group list-group-flush">
-              <li class="list-group-item">
+              <li class="list-group-item headers">
                   Deadline: <%= dayjs(task.deadline).format('ddd, MMM D YYYY @ h:mm a') %> 
               </li>
             </ul>
@@ -58,43 +58,43 @@
                     </div>
                 </ul>
             <% } %>
-            <small class="card-footer text-muted">
+            <small class="card-footer text-muted headers">
                 Created: <%= dayjs(task.createdAt).format('ddd, MMM D YYYY @ h:mm a') %>
             </small>
-            <li class="list-group-item d-flex justify-content-between">
-                <a href="/" class="btn btn-secondary">Go Back</a>
+            <li class="list-group-item d-flex justify-content-between headers">
+                <a href="/" class="btn btn-secondary" style="height: 30px;">Go Back</a>
                 
-                <a class="btn btn-dark" style=background-color:#eb8934 data-bs-toggle="modal" href="#editModal" role="button">Edit</a>
+                <a class="btn btn-dark" style="background-color:#eb8934; height:30px;" data-bs-toggle="modal" href="#editModal" role="button">Edit</a>
             </li>
         </div>
         <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Edit Task</h5>
+                    <h5 class="modal-title headers" id="editModalLabel">Edit Task</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="myForm" class="d-inline" action="/task/<%= task._id %>?_method=PUT" method="POST">
                         <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
+                            <label for="title" class="form-label headers">Title</label>
                             <input type="text" class="form-control" name="task[title]" value="<%= task.title %> " id="title" placeholder="Enter title">
                         </div>
                         <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
+                            <label for="description" class="form-label headers">Description</label>
                             <textarea class="form-control" name="task[description]" id="description" rows="3"><%= task.description %></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="deadline" class="form-label">Deadline</label>
+                            <label for="deadline" class="form-label headers">Deadline</label>
                             <input type="datetime-local" style=display:block; name="task[deadline]" value="<%= dayjs(task.deadline).format('YYYY-MM-DDTHH:mm:ss.SSS') %>" id="deadline">
                         </div> 
                     </form>
-                        <div class="modal-footer d-flex justify-content-between">
-                            <button type="submit" form="myForm" class="btn btn-primary order-1 d-inline" style=background-color:#eb8934>
+                        <div class="modal-footer d-flex justify-content-between headers">
+                            <button type="submit" form="myForm" class="btn btn-primary order-1 d-inline" style='background-color:#eb8934; height: 30px;'>
                                 Save changes
                             </button>
                             <form class="d-inline" action="/task/<%= task.id %>?_method=DELETE" method="POST">
-                                <button type="submit" class="btn btn-secondary">Delete</button>
+                                <button type="submit" class="btn btn-secondary" style="height: 30px;">Delete</button>
                             </form>
                         </div>
                 </div>

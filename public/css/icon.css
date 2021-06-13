@@ -1,3 +1,6 @@
+body {
+    height: 750px;
+}
 .fabutton {
     background: none;
     padding: 0px;
@@ -6,4 +9,42 @@
 
 .carouselButton {
     background-color: #eb8934;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.tasks {
+    font-family: 'Indie Flower', cursive;
+}
+
+.headers {
+    font-family: 'Baloo Tammudu 2', cursive;
+    font-weight: 500;
+}
+
+#h1Header {
+    margin-bottom: 0;
+    margin-top: 5px;
+}
+
+#dropdownMenuButton1 {
+    padding-top: 10px;
 }

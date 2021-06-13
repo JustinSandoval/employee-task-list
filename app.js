@@ -39,27 +39,6 @@ app.get('/', async (req, res) => {
     res.render('tasks/index', { tasks, dayjs })
 })
 
-app.get('/filtered', async (req, res) => {
-    const tasks = await Task.find({})
-    const filtered = tasks.filter(task => {
-        return (
-            dayjs(task.deadline).format('ddd MMM D, YYYY') ===
-            dayjs(Date.now()).format('ddd MMM D, YYYY')
-        )
-    })
-    const sortedTasks = filtered.sort((a, b) => a.deadline - b.deadline)
-
-    res.render('tasks/filtered', { tasks, dayjs, sortedTasks })
-})
-
-app.post('/filtered/add', async (req, res) => {
-    const { task } = req.body
-    const newTask = new Task(task)
-    await newTask.save()
-
-    res.redirect('/filtered')
-})
-
 app.post('/task/add', upload.array('file'), async (req, res) => {
     const { task } = req.body
     const newTask = new Task(task)
@@ -99,15 +78,6 @@ app.patch('/task/:id', async (req, res) => {
         completed: req.body.completed
     })
     res.redirect('/')
-})
-
-app.patch('/filtered/:id', async (req, res) => {
-    const { id } = req.params
-
-    const task = await Task.findByIdAndUpdate(id, {
-        completed: req.body.completed
-    })
-    res.redirect('/filtered')
 })
 
 app.delete('/task/:id', async (req, res) => {
