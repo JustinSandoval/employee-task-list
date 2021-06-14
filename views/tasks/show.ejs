@@ -1,19 +1,11 @@
 <% layout('layouts/boilerplate') %>
-<% const isComplete = (t) => { %>
-    <% if(t.completed === 'on') { %>
-        <%= 'list-group-item-success' %>
-    <% } else if(Date.now() > new Date(t.deadline)) { %>
-        <%= 'list-group-item-danger' %>
-    <% } else { %>
-        <%= 'list-group-item-info' %>
-    <% } %>
-<% } %>
+
 <div class="row">
     <div class="col-8 offset-2 d-flex justify-content-center">
         <div class="card" style="width: 20rem;">
             <div class="card-body <%= isComplete(task) %> ">
               <p class="h5 card-title d-flex justify-content-between">
-                    <%= task.title %>
+                    <span class="headers"><%= task.title %></span>
                     <% if (task.completed === 'on') { %>
                         <small><span class="badge bg-success rounded-pill mx-3">Completed</span></small>
                     <% } else if(Date.now() > new Date(task.deadline)){ %> 
@@ -23,7 +15,7 @@
                     <% } %>                   
 
                 </p>
-              <p class="card-text"><%= task.description %> </p>
+              <p class="card-text headers"><%= task.description %> </p>
             </div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item headers">
@@ -47,6 +39,7 @@
                                 <% } %>
                             <% }) %>
                         </div>
+                        <% if(task.files.length > 1) { %> 
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon carouselButton" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
@@ -55,6 +48,7 @@
                             <span class="carousel-control-next-icon carouselButton" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
+                        <% } %> 
                     </div>
                 </ul>
             <% } %>
@@ -75,7 +69,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="myForm" class="d-inline" action="/task/<%= task._id %>?_method=PUT" method="POST">
+                    <form id="myForm" class="d-inline" action="/task/<%= task._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="title" class="form-label headers">Title</label>
                             <input type="text" class="form-control" name="task[title]" value="<%= task.title %> " id="title" placeholder="Enter title">
@@ -85,18 +79,41 @@
                             <textarea class="form-control" name="task[description]" id="description" rows="3"><%= task.description %></textarea>
                         </div>
                         <div class="mb-3">
+                            <label for="formFileSm" class="form-label headers">File Upload</label>
+                            <input class="form-control form-control-sm" name="file" id="formFileSm" type="file" multiple>
+                        </div>
+                        <div class="mb-3">
+                            <% task.files.forEach((file, i) => { %>
+                                <% if(file.filename.slice(file.filename.length - 4) === 'docx') { %>
+                                    <iframe class="max d-inline" src=<%=`https://drive.google.com/viewerng/viewer?url=${file.url.replace(' ', '%20')}&embedded=true`%> frameborder="0">
+                                    </iframe>
+                                    <div class="form-check-inline">
+                                        <input type="checkbox" name="deleteFiles[]" id="file-<%= i %>" value="<%= file.filename %>">
+                                    </div>
+                                    <label for="file-<%= i %>">Delete</label>
+                                <% } else { %> 
+                                    <img src="<%= file.url %>" class="d-inline max img-thumbnail" alt="">
+                                    <div class="form-check-inline">
+                                        <input type="checkbox" name="deleteFiles[]" id="file-<%= i %>" value="<%= file.filename %>">
+                                    </div>
+                                    <label for="file-<%= i %>">Delete</label>
+                                <% } %> 
+                            <% }) %> 
+                        </div>
+                        <div class="mb-3">
                             <label for="deadline" class="form-label headers">Deadline</label>
                             <input type="datetime-local" style=display:block; name="task[deadline]" value="<%= dayjs(task.deadline).format('YYYY-MM-DDTHH:mm:ss.SSS') %>" id="deadline">
-                        </div> 
-                    </form>
-                        <div class="modal-footer d-flex justify-content-between headers">
-                            <button type="submit" form="myForm" class="btn btn-primary order-1 d-inline" style='background-color:#eb8934; height: 30px;'>
-                                Save changes
-                            </button>
-                            <form class="d-inline" action="/task/<%= task.id %>?_method=DELETE" method="POST">
-                                <button type="submit" class="btn btn-secondary" style="height: 30px;">Delete</button>
-                            </form>
                         </div>
+                         
+                    </form>
+                    <div class="modal-footer d-flex justify-content-between headers">
+                        <button type="submit" form="myForm" class="btn btn-primary order-1 d-inline" style='background-color:#eb8934; height: 30px;'>
+                            Save changes
+                        </button>
+                        <form class="d-inline" action="/task/<%= task.id %>?_method=DELETE" method="POST">
+                            <button type="submit" class="btn btn-secondary" style="height: 30px;">Delete</button>
+                        </form>
+                    </div>
                 </div>
               </div>
             </div>

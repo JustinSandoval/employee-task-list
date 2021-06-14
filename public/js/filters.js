@@ -6,7 +6,7 @@ const filterAllDays = document.querySelector('#allDays')
 filterOverdue.addEventListener('click', filterItems)
 filterInProgress.addEventListener('click', filterItems)
 filterToday.addEventListener('click', filterByDate)
-filterAllDays.addEventListener('click', filterItems)
+filterAllDays.addEventListener('click', showAlldays)
 
 function filterItems(e) {
     // get inner html text of link clicked
@@ -49,5 +49,13 @@ function filterByDate(e) {
         } else {
             tasks[i].classList.replace('d-flex', 'd-none')
         }
+    }
+}
+
+function showAlldays(e) {
+    const tasks = document.querySelectorAll('#listdiv a')
+
+    for (let i = 0; i < tasks.length; i++) {
+        tasks[i].classList.replace('d-none', 'd-flex')
     }
 }

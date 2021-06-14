@@ -48,3 +48,8 @@ body {
 #dropdownMenuButton1 {
     padding-top: 10px;
 }
+
+.max {
+    max-width: 100px;
+    max-height: 100px;
+}
