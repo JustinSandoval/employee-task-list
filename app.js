@@ -10,19 +10,19 @@ const cloudinary = require('cloudinary').v2
 const multer = require('multer')
 const { storage } = require('./cloudinary')
 const upload = multer({ storage })
-const isComplete = require('./public/js/isComplete.js')
+const isComplete = require('./scripts/isComplete.js')
 
-// mongoose.connect('mongodb://mongo:27017/task-list', {
-//     useNewUrlParser: true,
-//     useCreateIndex: true,
-//     useUnifiedTopology: true
-// })
-
-mongoose.connect('mongodb://localhost:27017/task-list', {
+mongoose.connect('mongodb://mongo:27017/task-list', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
 })
+
+// mongoose.connect('mongodb://localhost:27017/task-list', {
+//     useNewUrlParser: true,
+//     useCreateIndex: true,
+//     useUnifiedTopology: true
+// })
 
 const app = express()
 

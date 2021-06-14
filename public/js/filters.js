@@ -22,8 +22,6 @@ function filterItems(e) {
             .innerHTML.toUpperCase()
         // select inner html of date task was created, remove spaces and time
         const html = tasks[i].querySelector('#time').innerHTML
-        const taskDate = html.split(' ').join('').slice(0, 13).replace('-', '')
-        const todaysDate = dayjs(Date.now()).format('dddMMMD,YYYY')
 
         if (badgeValue === filterValue) {
             tasks[i].classList.replace('d-none', 'd-flex')
